@@ -1,3 +1,4 @@
-$(".button").on("click", function () {
-  alert("Button дарлаа!");
-});
+import { initRouter } from "./router.js";
+import { routes } from "./routes.js";
+
+initRouter(routes);

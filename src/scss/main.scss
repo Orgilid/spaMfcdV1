@@ -1,6 +1,6 @@
 @use "sass:color";
 
-// variables
+// Bulma variables color overrides
 $primaryColor: #2bac73;
 $primaryColorDark: color.scale($primaryColor, $lightness: -15%);
 
@@ -9,6 +9,9 @@ $secondaryColorDark: color.scale($secondaryColor, $lightness: -15%);
 
 @import "../../node_modules/bulma/bulma";
 
+$primary: $primaryColor;
+
+// Bulma button override
 :root {
   --bulma-primary-h: 151deg;
   --bulma-primary-s: 65%;
@@ -39,4 +42,89 @@ $secondaryColorDark: color.scale($secondaryColor, $lightness: -15%);
   background-color: $secondaryColorDark;
   border-color: $secondaryColorDark;
   color: white;
+}
+
+// Хайлтын хэсгийн filter хэсэгт scrollbar гаргах тохиргоо. SearchFilters.js-д .search-filters классыг ашигласан.
+.search-filters {
+  overflow-x: auto; /* x тэнхлэгт scroll идэвхжүүлнэ */
+  white-space: nowrap; /* мөр таслахгүй, нэг эгнээ байлгах */
+}
+
+// aside Хүнсний жагсаалтаас сонгож хайх хэсэг. SerachFilters.js-д .menu классыг ашигласан.
+.menu {
+  max-height: 50vh; /* дэлгэцийн өндөрт багтаах */
+  overflow-y: auto; /* босоо scrollbar идэвхжүүлнэ */
+
+  overflow-x: auto; /* x тэнхлэгт scroll идэвхжүүлнэ */
+  white-space: nowrap; /* мөр таслахгүй, нэг эгнээ байлгах */
+}
+.sublist {
+  margin-left: 1.5rem;
+}
+.is-hidden {
+  display: none;
+}
+.toggle-sublist {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.toggle-sublist .icon {
+  margin-right: 0.5rem;
+}
+
+// үндсэн текстийн хэмжээ тохируулна.
+.txt {
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+}
+// Section h1 хэмжээ тохируулав. searchPage.js txt-h классыг ашигласан.
+.txt-h {
+  line-height: 1.3;
+  letter-spacing: 0.5px;
+  margin-bottom: 2rem;
+}
+// Хайлтын үр дүн харуулах хүснэгтийн үсгийн хэмжээ тохируулав. NutritionTables.js tbl классыг ашигласан.
+.tbl {
+  font-size: 0.7rem;
+}
+
+@media (min-width: 769px) {
+  .txt {
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+  }
+  .txt-h {
+    line-height: 1.4;
+    letter-spacing: 0.8px;
+  }
+  .tbl {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .txt {
+    line-height: 1.8;
+    letter-spacing: 0.7px;
+    margin-top: 2rem;
+  }
+  .txt-h {
+    line-height: 1.5;
+    letter-spacing: 1px;
+  }
+  .tbl {
+    font-size: 1rem;
+  }
+}
+
+// Хүснэгт доторх зураг харуулах тоо бүхий жижиг дугуй
+.image-count-tag {
+  cursor: pointer;
+  text-align: center;
+  color: white;
+  border-radius: 999px;
+}
+.image-count-tag:hover {
+  background-color: $primaryColorDark; /* арай бараан ногоон */
 }
