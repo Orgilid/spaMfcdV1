@@ -36,7 +36,7 @@ export function renderFoodGroupList(foodGroups) {
     <!-- 2.1.3. Жагсаалтаас сонгож хайх-->
     <aside class="box menu">
       <p class="label">Search by food groups:</p>
-      <ul class="menu-list" style="margin-top: 1rem;">
+      <ul class="menu-list">
         ${foodGroups.map(renderFoodGroup).join("")}
       </ul>
     </aside>

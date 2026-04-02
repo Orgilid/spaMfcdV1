@@ -1,28 +1,6 @@
 import { getImagesByFoodCode } from "../services/imageService.js";
-// import { escapeHtml } from "../utils/escapeHtml.js";
-// import { safeValue, titleFromKey } from "../utils/format.js";
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
-// null, undefined, хоосон утгыг "-" болгож харуулах, XSS хамгаалах функц.
-function safeValue(value) {
-  return escapeHtml(value ?? "-");
-}
-
-// JSON key → хүний уншихад ойлгомжтой title болгох функц. Жишээ нь: "proximates" → "Proximates", "collection_information" → "Collection Information" гэх мэт.
-function titleFromKey(key) {
-  return escapeHtml(
-    String(key ?? "")
-      .replaceAll("_", " ")
-      .replace(/\b\w/g, (ch) => ch.toUpperCase()),
-  );
-}
+import { escapeHtml } from "../utils/escapeHtml.js";
+import { safeValue, titleFromKey } from "../utils/format.js";
 
 // 2.2. Хайлтын үр дүнгийн хүснэгтийг харуулах хэсэг
 // items = хайгаад олсон хүнсний найрлагын json өгөгдөл

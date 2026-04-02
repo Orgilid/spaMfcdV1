@@ -44,13 +44,60 @@ $primary: $primaryColor;
   color: white;
 }
 
-// Хайлтын хэсгийн filter хэсэгт scrollbar гаргах тохиргоо. SearchFilters.js-д .search-filters классыг ашигласан.
+// navbar
+.navbar-brand a {
+  p {
+    color: $primaryColor;
+    font-size: 1rem;
+  }
+  span {
+    color: $secondaryColor;
+  }
+}
+.navbar-end a {
+  color: $secondaryColor;
+}
+.is-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* дээр харагдахаар */
+  background-color: #f5f5f5; /* эсвэл өөр өнгө */
+}
+.navbar-shadow {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.navbar-brand .image img {
+  max-width: 64px;
+  height: auto;
+}
+.navbar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* зураг, текстийн хооронд зай */
+}
+// Цэсийг баруун тал руу зэрэгцүүлэх. Navbar.js-д .navbar-main-menu классыг ашигласан.
+.navbar-main-menu {
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+// лого арын өнгө цагаан тул hover хийх үед ялгарч харагдахгүй болгов.
+.navbar-brand .logo-item:hover,
+.navbar-brand .logo-item:focus,
+.navbar-brand .logo-item:active {
+  background-color: transparent;
+  color: inherit;
+  box-shadow: none;
+}
+
+// Хайлтын хэсгийн filter хэсэгт scrollbar гаргах тохиргоо.
+// SearchFilters.js-д .search-filters классыг ашигласан.
 .search-filters {
   overflow-x: auto; /* x тэнхлэгт scroll идэвхжүүлнэ */
   white-space: nowrap; /* мөр таслахгүй, нэг эгнээ байлгах */
 }
 
 // aside Хүнсний жагсаалтаас сонгож хайх хэсэг. SerachFilters.js-д .menu классыг ашигласан.
+// .menu классыг FoodGroupList.js-д ашигласан.
 .menu {
   max-height: 50vh; /* дэлгэцийн өндөрт багтаах */
   overflow-y: auto; /* босоо scrollbar идэвхжүүлнэ */
@@ -58,9 +105,11 @@ $primary: $primaryColor;
   overflow-x: auto; /* x тэнхлэгт scroll идэвхжүүлнэ */
   white-space: nowrap; /* мөр таслахгүй, нэг эгнээ байлгах */
 }
+
 .sublist {
-  margin-left: 1.5rem;
+  margin-left: 0.5rem;
 }
+
 .is-hidden {
   display: none;
 }

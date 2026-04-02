@@ -22637,6 +22637,53 @@ has-background-danger.is-hoverable:active {
   color: white;
 }
 
+.navbar-brand a p {
+  color: #2bac73;
+  font-size: 1rem;
+}
+.navbar-brand a span {
+  color: #ff914d;
+}
+
+.navbar-end a {
+  color: #ff914d;
+}
+
+.is-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* дээр харагдахаар */
+  background-color: #f5f5f5; /* эсвэл өөр өнгө */
+}
+
+.navbar-shadow {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand .image img {
+  max-width: 64px;
+  height: auto;
+}
+
+.navbar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* зураг, текстийн хооронд зай */
+}
+
+.navbar-main-menu {
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.navbar-brand .logo-item:hover,
+.navbar-brand .logo-item:focus,
+.navbar-brand .logo-item:active {
+  background-color: transparent;
+  color: inherit;
+  box-shadow: none;
+}
+
 .search-filters {
   overflow-x: auto; /* x тэнхлэгт scroll идэвхжүүлнэ */
   white-space: nowrap; /* мөр таслахгүй, нэг эгнээ байлгах */
@@ -22650,7 +22697,7 @@ has-background-danger.is-hoverable:active {
 }
 
 .sublist {
-  margin-left: 1.5rem;
+  margin-left: 0.5rem;
 }
 
 .is-hidden {

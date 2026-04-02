@@ -39,7 +39,7 @@ export async function renderSearchPage() {
 
     app.innerHTML = `
       <!-- 2. Өгөгдөл хайж харуулах хэсэг -->
-      <section id="search" class="section is-fullheight">
+      <div id="search">
         <div class="container">
           <h1 class="is-size-4-mobile is-size-3-tablet is-size-2-desktop has-text-weight-semibold has-text-centered txt-h">
             Food Composition Database
@@ -57,7 +57,7 @@ export async function renderSearchPage() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
       ${renderImageModal()}
     `;
 
