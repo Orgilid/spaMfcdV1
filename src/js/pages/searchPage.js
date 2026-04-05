@@ -2,12 +2,7 @@ import { getNutritions } from "../services/nutritionService.js"; // Хоолны
 import { renderSearchFilters } from "../components/SearchFilters.js"; // Хайлт хийх хэсгийг HTML болгоно.
 import { renderNutritionTables } from "../components/NutritionTables.js"; // Хайлтын үр дүнг хүснэгт хэлбэрээр HTML болгоно.
 import { loadImages } from "../services/imageService.js";
-import {
-  renderImageModal,
-  bindImageModalEvents,
-} from "../components/ImageModal.js";
-
-let imageModalBound = false;
+import { renderImageModal, bindImageModalEvents } from "../components/ImageModal.js";
 
 let nutritionData = [];
 
@@ -61,12 +56,11 @@ export async function renderSearchPage() {
       ${renderImageModal()}
     `;
 
-    bindSearchEvents();
+    bindSearchEvents(); // UI дээрх бүх event (click, change, keydown)-уудыг холбож өгдөг функц
 
-    if (!imageModalBound) {
-      bindImageModalEvents();
-      imageModalBound = true;
-    }
+    bindImageModalEvents();
+
+    applyPendingSelectedFoodsFromOverview(); // Overview page-аас шилжихдээ хайх үгийг хадгалсан бол тэр үгээр хайх үйлдлийг автоматаар хийх функц
   } catch (error) {
     app.innerHTML = `
       <section class="section">
@@ -102,9 +96,7 @@ function buildFoodGroups(data) {
 
   return Array.from(grouped.entries()).map(([groupName, itemsMap]) => ({
     groupName,
-    items: Array.from(itemsMap.values()).sort((a, b) =>
-      (a.food_name || "").localeCompare(b.food_name || ""),
-    ),
+    items: Array.from(itemsMap.values()).sort((a, b) => (a.food_name || "").localeCompare(b.food_name || "")),
   }));
 }
 
@@ -209,15 +201,11 @@ function getMatchedItems() {
   const keyword = getSearchKeyword();
 
   if (selectedCodes.length) {
-    return nutritionData.filter((item) =>
-      selectedCodes.includes(item.food_code),
-    );
+    return nutritionData.filter((item) => selectedCodes.includes(item.food_code));
   }
 
   if (keyword) {
-    return nutritionData.filter((item) =>
-      (item.food_name || "").toLowerCase().includes(keyword),
-    );
+    return nutritionData.filter((item) => (item.food_name || "").toLowerCase().includes(keyword));
   }
 
   return nutritionData.slice(0, DEFAULT_ITEM_COUNT);
@@ -230,25 +218,19 @@ function getSearchKeyword() {
 
 // Хүнсний жагсаалтаас сонгосон checkbox-уудын food_code утгуудыг массив хэлбэрээр авна. Жишээ нь: ["01_0106", "01_0107", ...]
 function getSelectedFoodCodes() {
-  return Array.from(
-    document.querySelectorAll('input[name="foodcode"]:checked'),
-  ).map((checkbox) => checkbox.value);
+  return Array.from(document.querySelectorAll('input[name="foodcode"]:checked')).map((checkbox) => checkbox.value);
 }
 
 // nutrition category-ээс сонгосон бүх checkbox-уудын утгыг авна. Жишээ нь: proximates, minerals, vitamins гэх мэт.
 function getSelectedNutritionTypes() {
-  return Array.from(
-    document.querySelectorAll('input[name="nutrition"]:checked'),
-  ).map((checkbox) => checkbox.value);
+  return Array.from(document.querySelectorAll('input[name="nutrition"]:checked')).map((checkbox) => checkbox.value);
 }
 
 // Хүнсний жагсаалтаас сонгож хайх checkbox-уудыг бүгдийг нь uncheck болгох функц.
 function clearCheckedFoodCodes() {
-  document
-    .querySelectorAll('input[name="foodcode"]:checked')
-    .forEach((checkbox) => {
-      checkbox.checked = false;
-    });
+  document.querySelectorAll('input[name="foodcode"]:checked').forEach((checkbox) => {
+    checkbox.checked = false;
+  });
 }
 
 // Үр дүн харуулах хэсэг рүү HTML-ийг гаргана.
@@ -263,4 +245,52 @@ function setResultHtml(html) {
 function renderDefaultTables(data) {
   const defaultItems = data.slice(0, DEFAULT_ITEM_COUNT);
   return renderNutritionTables(defaultItems, DEFAULT_TYPES);
+}
+
+// Overview page-аас шилжихдээ хайх үгийг хадгалсан бол тэр үгээр хайх үйлдлийг автоматаар хийх функц
+function applyPendingSelectedFoodsFromOverview() {
+  const raw = sessionStorage.getItem("pendingSelectedFoods");
+  if (!raw) return;
+
+  let selectedFoods = [];
+
+  try {
+    selectedFoods = JSON.parse(raw);
+  } catch (error) {
+    console.error("Invalid pendingSelectedFoods:", error);
+    sessionStorage.removeItem("pendingSelectedFoods");
+    return;
+  }
+
+  if (!Array.isArray(selectedFoods) || !selectedFoods.length) {
+    sessionStorage.removeItem("pendingSelectedFoods");
+    return;
+  }
+
+  const searchTxt = document.getElementById("searchTxt");
+  const searchSection = document.getElementById("search");
+
+  if (searchTxt) {
+    searchTxt.value = "";
+  }
+
+  document.querySelectorAll('input[name="foodcode"]').forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+
+  selectedFoods.forEach((food) => {
+    const checkbox = document.querySelector(`input[name="foodcode"][value="${food.foodCode}"]`);
+
+    if (checkbox) {
+      checkbox.checked = true;
+    }
+  });
+
+  handleFoodCodeSearch();
+
+  if (searchSection) {
+    searchSection.scrollIntoView({ behavior: "smooth" });
+  }
+
+  sessionStorage.removeItem("pendingSelectedFoods");
 }

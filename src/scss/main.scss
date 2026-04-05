@@ -122,7 +122,25 @@ $primary: $primaryColor;
   margin-right: 0.5rem;
 }
 
-// үндсэн текстийн хэмжээ тохируулна.
+// Svg image
+#svg-container svg {
+  width: 100%;
+  height: auto;
+  display: block;
+
+  path {
+    fill: #2bac73;
+    stroke: #fff;
+    stroke-width: 1;
+    cursor: pointer;
+    transition: fill 0.2s;
+  }
+
+  path:hover {
+    fill: #ff914d;
+  }
+}
+// hero text үндсэн текстийн хэмжээ тохируулна.
 .txt {
   line-height: 1.4;
   letter-spacing: 0.3px;
@@ -140,8 +158,8 @@ $primary: $primaryColor;
 
 @media (min-width: 769px) {
   .txt {
-    line-height: 1.6;
-    letter-spacing: 0.5px;
+    line-height: 1.5;
+    letter-spacing: 0.4px;
   }
   .txt-h {
     line-height: 1.4;
@@ -154,8 +172,8 @@ $primary: $primaryColor;
 
 @media (min-width: 1024px) {
   .txt {
-    line-height: 1.8;
-    letter-spacing: 0.7px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
     margin-top: 2rem;
   }
   .txt-h {

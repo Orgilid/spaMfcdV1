@@ -27,22 +27,36 @@ export function renderNavbar() {
           <div class="navbar-menu has-text-weight-semibold has-text-centered" id="navbarMenu">
             <div class="navbar-start navbar-main-menu">
               <a href="#/overview" class="navbar-item">
-                <i class="fas fa-circle-question"></i>&nbsp;Overview
+                <span class="icon has-text-warning">
+                  <i class="fas fa-circle-question"></i>
+                </span>
+                <span>Overview</span>
               </a>
-              <a href="#/search" class="navbar-item">
-                <span class="icon"><i class="fas fa-search"></i></span>
-                <span>Search</span>
-              </a>
-              <a href="#/calculation" class="navbar-item">
-                <i class="fas fa-calculator"></i>&nbsp;Food Calculator
-              </a>
-              <a href="#/books" class="navbar-item">
-                <span class="icon"><i class="fas fa-book"></i></span>
-                <span>Books</span>
-              </a>
-              <a href="#/contact" class="navbar-item">
-                <i class="fas fa-address-card"></i>&nbsp;Contact us
-              </a>
+                <a href="#/search" class="navbar-item">
+                  <span class="icon has-text-primary">
+                    <i class="fas fa-search"></i>
+                  </span>
+                  <span>Search</span>
+                </a>
+                <a href="#/calculation" class="navbar-item">
+                  <span class="icon has-text-link">
+                    <i class="fas fa-calculator"></i>
+                  </span>
+                  <span>Food Calculator</span>
+                </a>
+                <a href="#/books" class="navbar-item">
+                  <span class="icon has-text-info">
+                    <i class="fas fa-book"></i>
+                  </span>
+                  <span>Books</span>
+                </a>
+
+                <a href="#/contact" class="navbar-item">
+                  <span class="icon has-text-danger">
+                    <i class="fas fa-address-card"></i>
+                  </span>
+                  <span>Contact us</span>
+                </a>
             </div>
 
             <div class="navbar-end">

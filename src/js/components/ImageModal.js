@@ -2,6 +2,7 @@ import { getImagesByFoodCode } from "../services/imageService.js";
 
 let slideshowImages = [];
 let currentIndex = 0;
+let imageModalEventsBound = false;
 
 export function renderImageModal() {
   return `
@@ -23,6 +24,7 @@ export function renderImageModal() {
           <img
             id="slideshowImage"
             src=""
+            alt=""
             style="max-width: 100%; height: auto"
           />
           <div class="buttons is-centered mt-3">
@@ -48,20 +50,40 @@ export function renderImageModal() {
 }
 
 export function bindImageModalEvents() {
-  document.getElementById("modalBg")?.addEventListener("click", closeImgModal);
-  document
-    .getElementById("closeImgModalBtn")
-    ?.addEventListener("click", closeImgModal);
-  document.getElementById("prevImageBtn")?.addEventListener("click", prevImage);
-  document.getElementById("nextImageBtn")?.addEventListener("click", nextImage);
+  if (imageModalEventsBound) return;
+  imageModalEventsBound = true;
 
   document.addEventListener("click", (event) => {
-    const btn = event.target.closest(".open-image-btn");
-    if (!btn) return;
+    const openBtn = event.target.closest(".open-image-btn");
+    if (openBtn) {
+      const foodCode = openBtn.dataset.foodcode;
+      const foodName = openBtn.dataset.foodname;
+      showImages(foodCode, foodName);
+      return;
+    }
 
-    const foodCode = btn.dataset.foodcode;
-    const foodName = btn.dataset.foodname;
-    showImages(foodCode, foodName);
+    const closeBtn = event.target.closest("#closeImgModalBtn");
+    if (closeBtn) {
+      closeImgModal();
+      return;
+    }
+
+    const modalBg = event.target.closest("#modalBg");
+    if (modalBg) {
+      closeImgModal();
+      return;
+    }
+
+    const prevBtn = event.target.closest("#prevImageBtn");
+    if (prevBtn) {
+      prevImage();
+      return;
+    }
+
+    const nextBtn = event.target.closest("#nextImageBtn");
+    if (nextBtn) {
+      nextImage();
+    }
   });
 }
 
@@ -74,26 +96,44 @@ function showImages(foodCode, foodName) {
   }
 
   currentIndex = 0;
-  document.getElementById("slideshowImage").src = slideshowImages[currentIndex];
-  document.getElementById("modalImgTitle").textContent = foodName;
-  document.getElementById("imageModal").classList.add("is-active");
+
+  const imageEl = document.getElementById("slideshowImage");
+  const titleEl = document.getElementById("modalImgTitle");
+  const modalEl = document.getElementById("imageModal");
+
+  if (!imageEl || !titleEl || !modalEl) return;
+
+  imageEl.src = slideshowImages[currentIndex];
+  imageEl.alt = foodName;
+  titleEl.textContent = foodName;
+  modalEl.classList.add("is-active");
 }
 
 function nextImage() {
   if (!slideshowImages.length) return;
 
   currentIndex = (currentIndex + 1) % slideshowImages.length;
-  document.getElementById("slideshowImage").src = slideshowImages[currentIndex];
+
+  const imageEl = document.getElementById("slideshowImage");
+  if (imageEl) {
+    imageEl.src = slideshowImages[currentIndex];
+  }
 }
 
 function prevImage() {
   if (!slideshowImages.length) return;
 
-  currentIndex =
-    (currentIndex - 1 + slideshowImages.length) % slideshowImages.length;
-  document.getElementById("slideshowImage").src = slideshowImages[currentIndex];
+  currentIndex = (currentIndex - 1 + slideshowImages.length) % slideshowImages.length;
+
+  const imageEl = document.getElementById("slideshowImage");
+  if (imageEl) {
+    imageEl.src = slideshowImages[currentIndex];
+  }
 }
 
 function closeImgModal() {
-  document.getElementById("imageModal").classList.remove("is-active");
+  const modalEl = document.getElementById("imageModal");
+  if (modalEl) {
+    modalEl.classList.remove("is-active");
+  }
 }
