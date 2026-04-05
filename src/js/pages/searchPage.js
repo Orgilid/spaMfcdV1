@@ -102,14 +102,16 @@ function buildFoodGroups(data) {
 
 // UI дээрх бүх event (click, change, keydown)-уудыг холбож өгдөг функц
 function bindSearchEvents() {
+  const searchRoot = document.getElementById("search");
   const searchBtn = document.getElementById("searchBtn");
   const searchTxt = document.getElementById("searchTxt");
-  const app = document.getElementById("app");
+
+  if (!searchRoot) return;
 
   // button дээр товшиж food_name-ээр хайна.
   searchBtn?.addEventListener("click", handleTextSearch);
 
-  // Текст бичээд Enter товч дарж food_name-ээр хайна. button дээр товших хэрэггүй.
+  // Текст бичээд Enter товч дарж food_name-ээр хайна.
   searchTxt?.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -117,25 +119,23 @@ function bindSearchEvents() {
     }
   });
 
-  app?.addEventListener("change", (event) => {
+  // foodcode, nutrition checkbox-уудын event
+  searchRoot.addEventListener("change", (event) => {
     const target = event.target;
-
     if (!(target instanceof HTMLElement)) return;
 
-    // Хүнсний жагсаалтаас сонголт хийж food_code-оор хайна.
     if (target.matches('input[name="foodcode"]')) {
-      handleFoodCodeSearch(); // food_code-оор хайх функц
+      handleFoodCodeSearch();
       return;
     }
 
-    // nutrition category-ээс сонголт хийж үр дүнг дахин гаргах event. Жишээ нь: proximates, minerals, vitamins гэх мэт.
     if (target.matches('input[name="nutrition"]')) {
       rerenderCurrentSelection();
     }
   });
 
-  // Хүнсний бүлэг дээр дарж дэд жагсаалтыг харуулах event. Жишээ нь: "Cereals and Cereal products" бүлэг дээр дарж тухайн бүлгийн бүх хүнсийг харуулах.
-  app?.addEventListener("click", (event) => {
+  // food group expand/collapse event
+  searchRoot.addEventListener("click", (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
@@ -143,8 +143,11 @@ function bindSearchEvents() {
     if (!toggle) return;
 
     event.preventDefault();
+
     const sublist = toggle.nextElementSibling;
-    sublist?.classList.toggle("is-hidden");
+    if (!(sublist instanceof HTMLElement)) return;
+
+    sublist.classList.toggle("is-hidden");
   });
 }
 
